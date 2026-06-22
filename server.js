@@ -1,17 +1,19 @@
-const apiKey = process.env.ELEVENLABS_API_KEY;
-const modelId = process.env.ELEVENLABS_MODEL_ID || "music_v1";
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
 
-const response = await fetch("https://api.elevenlabs.io/v1/music/stream", {
-  method: "POST",
-  headers: {
-    "xi-api-key": apiKey,
-    "Content-Type": "application/json",
-    "Accept": "audio/mpeg"
-  },
-  body: JSON.stringify({
-    prompt: "Crie uma música cantada em português do Brasil, estilo piseiro, com voz masculina clara.",
-    music_length_ms: 60000,
-    model_id: modelId,
-    force_instrumental: false
-  })
+dotenv.config();
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+const PORT = process.env.PORT || 3000;
+
+app.get("/", (req, res) => {
+  res.json({ status: "ok", message: "Music IA Pro rodando" });
+});
+
+app.listen(PORT, () => {
+  console.log("Servidor rodando na porta " + PORT);
 });
